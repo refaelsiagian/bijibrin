@@ -1,0 +1,518 @@
+==========================================================================================
+               FABACEAE SEED MORPHOLOGICAL CLUSTERING & SIMILARITY ANALYSIS
+                     A Deep Dive into 76 Legume Species (Biji) Photos
+==========================================================================================
+
+Dataset Overview:
+  * Total Species Analyzed : 76 species
+  * Source Directory       : ./Sample/ (76 photographs corresponding to species.txt)
+  * Botanical Family       : Fabaceae (Leguminosae) - Mimosoideae, Caesalpinioideae, Faboideae
+  * Method                 : Digital image feature extraction (K-Means color segmentation,
+                             contour geometry, circularity, aspect ratio, solidity)
+                             combined with taxonomic seed morphology standards.
+
+------------------------------------------------------------------------------------------
+TABLE OF CONTENTS
+------------------------------------------------------------------------------------------
+  SECTION 1. COLOR CLUSTERS (Red, Black, Bicolor, Brown, Grey, Yellow, Olive)
+  SECTION 2. SHAPE & FLATNESS CLUSTERS (Round, Flat, Elongated, Kidney, Angular)
+  SECTION 3. SIZE CLUSTERS (Very Large, Large, Medium, Small)
+  SECTION 4. MULTI-TRAIT SEED ARCHETYPES (Combined Visual Similarity Groups)
+  SECTION 5. HIGH-SIMILARITY / LOOKALIKE PAIRS & HOW TO DISTINGUISH THEM
+  SECTION 6. MASTER 76-SPECIES SUMMARY TABLE (Alphabetical Reference)
+
+==========================================================================================
+SECTION 1: COLOR CLUSTERS
+==========================================================================================
+Grouping by the primary visual color of the mature seed coat (testa):
+
+[1.1 BRIGHT RED / SCARLET SEEDS (Vivid Red / Coral)] - Total: 4 species
+  * Adenanthera pavonina             : Famous 'saga seed' / red sandalwood bead; uniformly glowing scarlet red, extremely hard, smooth and lustrous.
+  * Adenanthera microsperma          : Brilliant glossy scarlet red seed, slightly smaller and heart-shaped compared to A. pavonina.
+  * Erythrina abyssinica             : Lucky bean / Coral tree; brilliant shiny scarlet red with a contrasting dark grey-black hilum scar.
+  * Erythrina fusca                  : Purple coraltree; thick, heavy oblong bean, deep brownish-red with a long linear hilum.
+
+[1.2 BICOLOR & PATTERNED SEEDS (Two-tone, Eyes, or Distinct Marbling)] - Total: 9 species
+  * Abrus precatorius                : Classic 'jequirity bean'; 2/3 brilliant scarlet red, 1/3 glossy jet black around the hilum; smooth, hard.
+  * Enterolobium cyclocarpum         : Elephant ear / Guanacaste seed; lustrous dark brown with a dramatic bright orange-yellow oval ring (pleurogram) on each face.
+  * Samanea saman                    : Rain tree / Trembesi; shiny brown seed with a distinct yellowish oval pleurogram ring on each face.
+  * Sindora velutina                 : Velvet Sindora; massive flat woody seed capped by a large, bright yellow-orange waxy aril cushion.
+  * Canavalia rosea                  : Bay bean; large, thick, heavy bean with distinct brown marbling and a long linear dark hilum.
+  * Centrosema pubescens             : Centro seed; brownish-green with dark blackish speckles and a distinct white linear hilum.
+  * Macroptilium atropurpureum       : Siratro; small mottled blackish-brown seed with distinct rhomboid/quadrate profile.
+  * Cajanus cajan                    : Pigeon pea; plump roundish seed with a distinct white raised strophiole/hilum.
+  * Delonix regia                    : Flamboyant / Gulmohar seed; long, hard, oblong cylinder with distinct longitudinal stripes and pale ends.
+
+[1.3 JET-BLACK / VERY DARK CHARCOAL SEEDS] - Total: 8 species
+  * Acacia auriculiformis            : Shiny dark brown to black seed encircled by a bright orange-yellow coiled fleshy funicle/aril.
+  * Acacia mangium                   : Small, shiny pitch-black seed attached to a prominent folded orange/yellow aril.
+  * Albizia lophantha                : Dense, glossy black bean with a conspicuous central mark; plume albizia.
+  * Clitoria ternatea                : Butterfly pea seed; dark olive to mottled black with a small concave hilum.
+  * Flemingia macrophylla            : Tiny, shiny black ball; perfectly spherical small seed with a miniature white hilum.
+  * Mucuna pruriens                  : Velvet bean; heavy, plump, shiny black seed with an exceptionally large, conspicuous white raised hilum.
+  * Parkia timoriana                 : Kedawung; large, solid jet-black seed with very tough leathery coat, famous medicinal seed in Java.
+  * Pithecellobium dulce             : Manila tamarind / Madras thorn; shiny jet-black seed originally enclosed in white/pink sweet aril.
+
+[1.4 DARK BROWN / CHOCOLATE / CHESTNUT SEEDS] - Total: 28 species
+  * Acacia caffra                    : Compressed oval dark brown seed with a distinct central horseshoe-shaped pleurogram.
+  * Albizia saponaria                : Smooth dark brown seed with rounded margins and a clear pleurogram.
+  * Albizia splendens                : Relatively large, robust Albizia seed with thick seed coat and dark polished sheen.
+  * Anadenanthera peregrina          : Thin, smooth, coin-shaped disc; famous Yopo shamanic seed; shiny dark surface.
+  * Bauhinia purpurea                : Large flattened wafer-like seed; glossy chocolate brown with slightly undulating margins.
+  * Cassia fistula                   : Golden shower seed; polished amber to dark chestnut seed embedded in sticky fruit pulp.
+  * Cassia grandis                   : Pink shower seed; large, thick, hard tan seed with smooth surface and prominent side margins.
+  * Cassia javanica                  : Rainbow shower seed; glossy reddish-brown, smooth surface, prominent hilum.
+  * Cassia spectabilis               : Elongated, slightly flattened cylindrical seed, dark brown with a central areole.
+  * Dalbergia latifolia              : Indian rosewood; thin, delicate, compressed kidney-shaped brown seed.
+  * Hymenaea courbaril               : Jatoba / West Indian locust; huge, stony, rounded-rectangular block with extremely hard enamel-like coat.
+  * Hymenaea verrucosa               : Zanzibar copal; large heavy seed with a textured, resinous dark seed coat.
+  * Leucaena esculenta               : Guaje seed; large flat dark brown oval wafer with a faint central pleurogram line.
+  * Leucaena leucocephala            : Lamtoro / Leadtree; highly glossy, flat, teardrop-to-oval brown seed with a distinct horseshoe pleurogram.
+  * Millettia xylocarpa              : Large, heavy, flattened disc-like woody legume seed with smooth dark brown coat.
+  * Neptunia plena                   : Water dead-and-awake; small, flat, smooth dark brown seed with central U-line.
+  * Psophocarpus scandens            : African winged bean; small round dark bean with distinct hilum.
+  * Pterocarpus indicus              : Angsana / Narra; brownish-red, curved kidney-shaped seed extracted from the winged disc pod.
+  * Senna alata                      : Candlebush (Ketepeng cina); distinctly triangular/wedge-shaped flat seed with notched base.
+  * Senna multijuga                  : Smooth flat dark brown seed with central areole.
+  * Senna siamea                     : Kassod tree (Johar); thin, flat, smooth brown disc with a shallow central depression.
+  * Senna spectabilis                : Spectacular cassia; small flat brown oval seed with central pleurogram.
+  * Senna surattensis                : Glaucous cassia; shiny, smooth brown flattened seed.
+  * Sesbania grandiflora             : Turi; smooth reddish-brown to tan rectangular/oblong seed with prominent hilum.
+  * Sindora brugemanii               : Sindora; large, heavy, dark disc-like woody seed with prominent basal aril collar.
+  * Sindora leiocarpa                : Smooth-pod Sindora; very large, thick, heavy brown seed with hard woody coat.
+  * Vachellia farnesiana             : Sweet acacia / Bunga siam; hard, smooth, dark chestnut seed with clear U-shaped pleurogram.
+  * Vachellia nilotica               : Gum arabic; dark brown, smooth, hard, subcircular seed with distinct central pleurogram.
+
+[1.5 LIGHT BROWN / TAN / BUFF / CREAM SEEDS] - Total: 7 species
+  * Albizia lebbekoides              : Compressed light brown to yellowish-brown seed with a fine central pleurogram line.
+  * Caesalpinia mexicana             : Mexican holdback seed; flat, smooth tan seed with rounded edges.
+  * Cassia corymbosa                 : Hard, highly polished brown seed with a subtle lateral indentation.
+  * Leucaena pallida                 : Smooth, flat brown seed very similar to L. leucocephala but slightly paler tan.
+  * Peltophorum dasyrhachis          : Yellow poinciana; elongated flat wafer-like seed with pale tan color.
+  * Psophocarpus tetragonolobus      : Winged bean (Kecipir); smooth, round, marble-like tan to light brown ball with prominent hilum.
+  * Sophora tomentosa                : Silver necklacepod; perfectly round, smooth, hard tan-yellowish marble with circular hilum.
+
+[1.6 GREY / ASH / SLATE SEEDS] - Total: 3 species
+  * Caesalpinia bonduc               : Famous 'grey nicker nut'; stony, hard, smooth grey marble-like sphere with subtle concentric ring lines.
+  * Calliandra houstoniana           : Flattened seed with mottled brown-black speckles and a subtle pleurogram.
+  * Crotalaria juncea                : Sunn hemp; classic notched kidney shape with deeply indented hilum; smooth dark coat.
+
+[1.7 YELLOW / AMBER / GOLDEN SEEDS] - Total: 6 species
+  * Caesalpinia coriaria             : Divi-divi seed; polished golden-brown seed with slightly asymmetric ends.
+  * Crotalaria retusa                : Rattlepod seed; shiny yellowish-amber to dark honey, deeply notched kidney.
+  * Mimosa invisa                    : Giant sensitive plant; tiny, flat, shiny golden-brown seed with central pleurogram.
+  * Peltophorum pterocarpum          : Copperpod; thin, flat, oblong seed with smooth amber-brown coat.
+  * Senna obtusifolia                : Sicklepod; hard, shiny amber-brown seed with uniquely truncated, diagonally cut ends.
+  * Vigna marina                     : Beach pea; smooth, plump, golden-yellow to brown bean with an oval white hilum.
+
+[1.8 OLIVE-GREEN / KHAKI SEEDS] - Total: 11 species
+  * Aeschynomene indica              : Joint-vetch seed; smooth, hard, greenish-black to dark olive with a small lateral hilum.
+  * Albizia chinensis                : Flat, smooth disc-shaped seed with a visible U-shaped pleurogram line on each face.
+  * Albizia procera                  : Thin wafer-like disc seed, greenish-brown with a distinct central elliptic pleurogram.
+  * Dendrolobium umbellatum          : Horse bush seed; oblong-quadrate shape with rounded corners, olive to brown.
+  * Indigofera tinctoria             : True indigo; miniature squared-off cylindrical blocks with truncate ends, yellowish-brown.
+  * Mimosa pigra                     : Catclaw mimosa; small, elongated oblong seed, olive-brown with a distinct central areole.
+  * Paraserianthes falcataria        : Sengon; thin flat seed with a distinct narrow circular pleurogram ring on each face.
+  * Senna tora                       : Foetid cassia; hard, angular rhomboidal cylinder with diagonal facets.
+  * Sesbania sesban                  : Egyptian rattlepod; small cylindrical block, smooth olive-green to brown.
+  * Tadehagi triquetrum              : Ternate pod; small, flat, rectangular-shaped seed with rounded corners.
+  * Zapoteca tetragona               : Small, flat, smooth seed with a distinct central pleurogram ring on each face.
+
+==========================================================================================
+SECTION 2: SHAPE & FLATNESS CLUSTERS
+==========================================================================================
+Grouping by 3D geometry, contour circularity, and cross-sectional flatness:
+
+[2.1 SPHERICAL / GLOBOSE (ROUND SEEDS)] - Total: 9 species
+  Description: Aspect ratio near 1.0; round marble/ball-like; non-compressed:
+  * Caesalpinia bonduc               : Spherical / Globose (Perfect Marble) | Flatness: Completely Globose (Not flat)
+  * Sophora tomentosa                : Spherical / Globose (Round Ball) | Flatness: Globose / Spherical (Not flat)
+  * Psophocarpus tetragonolobus      : Spherical / Globose (Smooth Ball) | Flatness: Globose / Round (Not flat)
+  * Abrus precatorius                : Spherical / Subglobose (Round) | Flatness: Plump / Globose (Not flat)
+  * Flemingia macrophylla            : Spherical / Globose (Round) | Flatness: Completely Round (Not flat)
+  * Cajanus cajan                    : Subglobose / Rounded (Pea-like) | Flatness: Plump / Rounded (Not flat)
+  * Adenanthera pavonina             : Lenticular / Suborbicular (Round/Lens) | Flatness: Biconvex Lens (Not flat)
+  * Adenanthera microsperma          : Heart-shaped to Suborbicular (Rounded) | Flatness: Plump / Biconvex
+  * Psophocarpus scandens            : Globose to Subglobose (Round) | Flatness: Round / Plump (Not flat)
+
+[2.2 FLAT / COMPRESSED / DISC-LIKE SEEDS (NOT ROUND)] - Total: 28 species
+  Description: Thin, flattened wafer or coin-like seeds; thickness is a fraction of width:
+  * Anadenanthera peregrina          : Circular / Disc-like (Round & Flat) | Flatness: Extremely Flat (Coin-like)
+  * Bauhinia purpurea                : Rounded Oval / Disc-like | Flatness: Very Flat (Thin Coin)
+  * Albizia procera                  : Round to Broadly Oval (Flat) | Flatness: Very Flat (Thin Disc)
+  * Albizia chinensis                : Elliptic / Flattened Disc | Flatness: Distinctly Flat (Wafer-like)
+  * Albizia lebbekoides              : Broadly Elliptic / Oval | Flatness: Flat (Compressed)
+  * Albizia saponaria                : Oval / Compressed | Flatness: Flat (Compressed)
+  * Leucaena leucocephala            : Oval / Compressed Elliptic | Flatness: Flat (Wafer-like)
+  * Leucaena pallida                 : Oval / Flat | Flatness: Flat
+  * Leucaena esculenta               : Broadly Oval / Flat Disc | Flatness: Very Flat (Thin Disc)
+  * Paraserianthes falcataria        : Flat Elliptic / Teardrop | Flatness: Very Flat (Thin)
+  * Peltophorum dasyrhachis          : Oblong / Flat (Compressed) | Flatness: Very Flat
+  * Peltophorum pterocarpum          : Oblong / Flattened | Flatness: Very Flat (Wafer)
+  * Senna siamea                     : Broadly Oval / Disc-like | Flatness: Very Flat (Thin Disc)
+  * Senna alata                      : Quadrangular / Deltoid (Triangular) | Flatness: Flat / Wedge-shaped
+  * Senna multijuga                  : Oblong / Flattened | Flatness: Flat
+  * Senna spectabilis                : Suborbicular / Flattened Oval | Flatness: Flat
+  * Senna surattensis                : Elliptic / Flattened | Flatness: Flat
+  * Sindora brugemanii               : Large Rounded Disc | Flatness: Flat (Thick Disc)
+  * Sindora leiocarpa                : Broadly Oval / Rounded Disc | Flatness: Flat (Thick Disc)
+  * Sindora velutina                 : Large Disc / Rounded | Flatness: Flat (Heavy Disc)
+  * Millettia xylocarpa              : Large Disc / Flattened Round | Flatness: Flat (Thick Disc)
+  * Dalbergia latifolia              : Reniform to Flat Elliptic | Flatness: Very Flat (Thin)
+  * Acacia caffra                    : Oval / Flattened Disc | Flatness: Flat (Compressed)
+  * Pithecellobium dulce             : Asymmetric Oval / Obovate | Flatness: Flat (Compressed)
+  * Calliandra houstoniana           : Oblong / Elliptic (Flattened) | Flatness: Flat
+  * Mimosa invisa                    : Oval / Compressed | Flatness: Flat
+  * Neptunia plena                   : Oblong / Compressed | Flatness: Flat
+  * Zapoteca tetragona               : Oblong to Elliptic | Flatness: Flat
+
+[2.3 ELONGATED / OBLONG / CYLINDRICAL SEEDS] - Total: 13 species
+  Description: Length significantly exceeds width (Aspect Ratio > 1.6); rod- or cylinder-shaped:
+  * Delonix regia                    : Elongated / Oblong / Cylindrical | Flatness: Subcylindrical / Thick (Not flat)
+  * Cassia fistula                   : Broadly Oval / Biconvex | Flatness: Moderately Compressed (Biconvex)
+  * Cassia spectabilis               : Oblong / Cylindrical | Flatness: Subcylindrical (Not flat)
+  * Sesbania grandiflora             : Oblong / Subquadrate | Flatness: Slightly Compressed
+  * Sesbania sesban                  : Cylindrical / Subquadrate | Flatness: Cylindrical (Not flat)
+  * Senna obtusifolia                : Rhomboid / Cylindrical (Diagonal Cut) | Flatness: Subcylindrical / Angular
+  * Senna tora                       : Rhomboidal / Cylindrical (Angular) | Flatness: Subcylindrical / Angular (Not flat)
+  * Indigofera tinctoria             : Cylindrical to Quadrate (Block-like) | Flatness: Cylindrical / Truncate (Not flat)
+  * Centrosema pubescens             : Oblong to Subcylindrical | Flatness: Plump / Slightly Compressed
+  * Mimosa pigra                     : Oblong / Cylindrical | Flatness: Slightly Compressed
+  * Dendrolobium umbellatum          : Rectangular / Oblong (Compressed) | Flatness: Flat
+  * Tadehagi triquetrum              : Oblong / Rectangular | Flatness: Flat
+  * Macroptilium atropurpureum       : Oblong / Subquadrate | Flatness: Slightly Compressed
+
+[2.4 RENIFORM (KIDNEY-SHAPED) & ASYMMETRIC SEEDS] - Total: 10 species
+  Description: Notched along one side around the hilum, bean-shaped or asymmetric:
+  * Crotalaria juncea                : Distinctly Reniform (Kidney-shaped) | Flatness: Compressed (Flat sides)
+  * Crotalaria retusa                : Reniform (Kidney-shaped) | Flatness: Compressed (Flat sides)
+  * Aeschynomene indica              : Reniform (Kidney-shaped) | Flatness: Slightly Compressed
+  * Clitoria ternatea                : Oblong / Reniform (Kidney-like) | Flatness: Moderately Compressed
+  * Pterocarpus indicus              : Reniform (Kidney-shaped) | Flatness: Compressed (Flat sides)
+  * Vigna marina                     : Oblong to Reniform (Kidney-shaped) | Flatness: Plump / Rounded
+  * Canavalia rosea                  : Broadly Oval / Plump Bean | Flatness: Plump / Slightly Compressed
+  * Erythrina fusca                  : Oblong / Bean-shaped | Flatness: Plump / Rounded
+  * Acacia auriculiformis            : Oval / Compressed Elliptic | Flatness: Moderately Flat (Compressed)
+  * Acacia mangium                   : Elliptic / Oblong | Flatness: Slightly Compressed
+
+[2.5 PLUMP OVAL / BULKY BICONVEX SEEDS] - Total: 14 species
+  Description: Thick, solid, egg-shaped or blocky seeds without thin wafer edges:
+  * Enterolobium cyclocarpum         : Large Oval to Elliptic | Flatness: Thick Biconvex (Not flat)
+  * Samanea saman                    : Oblong / Ellipsoid | Flatness: Slightly Compressed
+  * Mucuna pruriens                  : Plump Oval / Rounded Block | Flatness: Thick / Plump (Not flat)
+  * Hymenaea courbaril               : Broad Obovate / Asymmetric Block | Flatness: Thick / Chunky (Not flat)
+  * Hymenaea verrucosa               : Oblong to Obovate | Flatness: Thick / Bulky
+  * Parkia timoriana                 : Oblong to Broadly Oval | Flatness: Moderately Flat
+  * Cassia grandis                   : Large Broad Oval | Flatness: Compressed (Thick wafer)
+  * Cassia javanica                  : Oval to Obovate | Flatness: Biconvex / Compressed
+  * Cassia corymbosa                 : Ovate to Biconvex Oval | Flatness: Slightly Compressed
+  * Erythrina abyssinica             : Ellipsoid / Plump Oval | Flatness: Plump / Rounded (Not flat)
+  * Albizia lophantha                : Oval / Oblong (Plump) | Flatness: Subglobose / Slightly Compressed
+  * Albizia splendens                : Oblong / Elliptic | Flatness: Moderately Flat
+  * Vachellia farnesiana             : Broadly Oval / Biconvex | Flatness: Plump / Slightly Compressed
+  * Vachellia nilotica               : Suborbicular / Compressed | Flatness: Moderately Flat
+
+==========================================================================================
+SECTION 3: SIZE CLUSTERS
+==========================================================================================
+Grouping by seed diameter / length (Macro to Micro):
+
+[3.1 VERY LARGE SEEDS (> 15 mm / Macro-seeds)] - Total: 13 species
+  * Hymenaea courbaril               : Length: 18 - 28 mm  | Heavy, thick, stony rectangular block
+  * Millettia xylocarpa              : Length: 18 - 25 mm  | Massive flat dark chocolate woody disc
+  * Sindora velutina                 : Length: 20 - 28 mm  | Huge flat dark disc with waxy yellow aril cushion
+  * Sindora leiocarpa                : Length: 18 - 26 mm  | Heavy woody brown circular disc
+  * Sindora brugemanii               : Length: 18 - 25 mm  | Large woody disc with basal collar
+  * Delonix regia                    : Length: 16 - 22 mm  | Long, hard, striped oblong cylinder
+  * Enterolobium cyclocarpum         : Length: 16 - 22 mm  | Thick lustrous bean with orange-yellow eye ring
+  * Caesalpinia bonduc               : Length: 15 - 22 mm  | Spherical porcelain-grey hard marble
+  * Hymenaea verrucosa               : Length: 15 - 22 mm  | Large chunky resinous dark bean
+  * Parkia timoriana                 : Length: 15 - 20 mm  | Solid black, thick leathery medicinal bean
+  * Mucuna pruriens                  : Length: 12 - 18 mm  | Heavy plump black bean with prominent white hilum
+  * Canavalia rosea                  : Length: 14 - 18 mm  | Thick, plump, marbled beach bean
+  * Bauhinia purpurea                : Length: 12 - 16 mm  | Large flat circular wafer
+
+[3.2 LARGE SEEDS (10 - 15 mm)] - Total: 14 species
+  * Anadenanthera peregrina          : Length: 10 - 15 mm  | Thin, flat circular coin-like disc
+  * Albizia splendens                : Length: 10 - 14 mm  | Large, robust oblong dark bean
+  * Cassia grandis                   : Length: 12 - 16 mm  | Thick, hard, smooth light brown bean
+  * Erythrina fusca                  : Length: 12 - 16 mm  | Thick oblong brownish-red bean
+  * Erythrina abyssinica             : Length: 9 - 12 mm   | Plump glowing scarlet bead with black hilum
+  * Pterocarpus indicus              : Length: 8 - 12 mm   | Compressed reddish-brown kidney seed
+  * Psophocarpus tetragonolobus      : Length: 8 - 11 mm   | Smooth round tan marble-like pea
+  * Pithecellobium dulce             : Length: 8 - 11 mm   | Shiny jet-black asymmetric flattened seed
+  * Peltophorum pterocarpum          : Length: 8 - 11 mm   | Elongated flat amber wafer
+  * Peltophorum dasyrhachis          : Length: 8 - 10 mm   | Flat pale tan oblong wafer
+  * Samanea saman                    : Length: 8 - 11 mm   | Oblong brown seed with golden pleurogram ring
+  * Cassia fistula                   : Length: 8 - 10 mm   | Glossy chestnut-brown biconvex seed
+  * Leucaena esculenta               : Length: 8 - 11 mm   | Large flat dark brown disc
+  * Adenanthera pavonina             : Length: 8 - 10 mm   | Scarlet red biconvex lens bead
+
+[3.3 MEDIUM SEEDS (6 - 10 mm)] - Total: 32 species
+  * Acacia auriculiformis            : Length: 5 - 7 mm    | Black oval seed with bright orange coiled funicle
+  * Acacia caffra                    : Length: 6 - 8 mm    | Flat oval dark brown seed with central U-line
+  * Adenanthera microsperma          : Length: 6 - 8 mm    | Small scarlet red heart-shaped bead
+  * Albizia chinensis                : Length: 6 - 8 mm    | Flat disc with visible pleurogram line
+  * Albizia lebbekoides              : Length: 7 - 9 mm    | Compressed tan-brown oval seed
+  * Albizia lophantha                : Length: 6 - 8 mm    | Plump glossy black bean
+  * Albizia procera                  : Length: 6 - 8 mm    | Very thin greenish-brown wafer disc
+  * Albizia saponaria                : Length: 7 - 9 mm    | Flat dark brown oval seed
+  * Caesalpinia coriaria             : Length: 6 - 8 mm    | Polished golden-brown ellipsoid
+  * Caesalpinia mexicana             : Length: 8 - 11 mm   | Flat smooth tan seed
+  * Cajanus cajan                    : Length: 6 - 8 mm    | Plump roundish mottled pigeon pea
+  * Calliandra houstoniana           : Length: 7 - 9 mm    | Flat mottled brown/grey seed
+  * Cassia corymbosa                 : Length: 5 - 6 mm    | Glossy dark brown biconvex seed
+  * Cassia javanica                  : Length: 7 - 9 mm    | Lustrous golden-brown oval seed
+  * Cassia spectabilis               : Length: 5 - 7 mm    | Cylindrical brown seed
+  * Centrosema pubescens             : Length: 5 - 7 mm    | Mottled brown/black oblong bean
+  * Clitoria ternatea                : Length: 5 - 7 mm    | Dark olive-brown kidney seed
+  * Dalbergia latifolia              : Length: 6 - 8 mm    | Very thin, delicate brown kidney wafer
+  * Leucaena leucocephala            : Length: 6 - 8 mm    | Glossy flat brown teardrop/oval seed
+  * Leucaena pallida                 : Length: 6 - 8 mm    | Smooth flat brown seed
+  * Paraserianthes falcataria        : Length: 6 - 8 mm    | Flat teardrop seed with ring line
+  * Psophocarpus scandens            : Length: 6 - 8 mm    | Round dark brown bean
+  * Senna alata                      : Length: 6 - 8 mm    | Triangular / wedge-shaped flat dark seed
+  * Senna multijuga                  : Length: 5 - 6 mm    | Flat dark brown seed
+  * Senna siamea                     : Length: 6 - 8 mm    | Thin flat circular brown disc
+  * Senna spectabilis                : Length: 4 - 6 mm    | Flat brown oval seed
+  * Senna surattensis                : Length: 4 - 6 mm    | Shiny flat brown seed
+  * Sesbania grandiflora             : Length: 6 - 8 mm    | Reddish-brown subquadrate seed
+  * Sophora tomentosa                : Length: 6 - 8 mm    | Smooth round tan marble
+  * Vachellia farnesiana             : Length: 6 - 8 mm    | Plump biconvex dark chestnut seed
+  * Vachellia nilotica               : Length: 7 - 9 mm    | Subcircular flat dark brown seed
+  * Vigna marina                     : Length: 6 - 8 mm    | Plump golden-yellow kidney bean
+
+[3.4 SMALL / MICRO SEEDS (< 6 mm)] - Total: 17 species
+  * Abrus precatorius                : Length: 5 - 7 mm    | Bright red & black bead (borderline small/med)
+  * Acacia mangium                   : Length: 3 - 5 mm    | Tiny glossy black bean with folded orange aril
+  * Aeschynomene indica              : Length: 3 - 4 mm    | Small smooth dark olive kidney seed
+  * Crotalaria juncea                : Length: 4 - 6 mm    | Dark grey/olive deeply notched kidney seed
+  * Crotalaria retusa                : Length: 4 - 5 mm    | Golden-amber shiny kidney seed
+  * Dendrolobium umbellatum          : Length: 4 - 6 mm    | Small flat rectangular olive seed
+  * Flemingia macrophylla            : Length: 3 - 4 mm    | Tiny perfect black spherical ball
+  * Indigofera tinctoria             : Length: 2 - 3 mm    | Miniature squared-off cylindrical blocks
+  * Macroptilium atropurpureum       : Length: 4 - 5 mm    | Small mottled rhomboid seed
+  * Mimosa invisa                    : Length: 3 - 4 mm    | Tiny flat golden-brown oval
+  * Mimosa pigra                     : Length: 4 - 5 mm    | Small elongated oblong olive seed
+  * Neptunia plena                   : Length: 3 - 5 mm    | Small flat dark brown seed
+  * Senna obtusifolia                : Length: 4 - 6 mm    | Hard amber-brown diagonally cut cylinder
+  * Senna tora                       : Length: 4 - 5 mm    | Angular rhomboidal brown cylinder
+  * Sesbania sesban                  : Length: 3 - 5 mm    | Small olive-green cylindrical block
+  * Tadehagi triquetrum              : Length: 3 - 5 mm    | Small flat rectangular brown seed
+  * Zapoteca tetragona               : Length: 4 - 5 mm    | Small flat olive seed with central ring
+
+==========================================================================================
+SECTION 4: MULTI-TRAIT SEED ARCHETYPES (PRACTICAL IDENTIFICATION GROUPS)
+==========================================================================================
+Combining color, shape, and size into 8 intuitive visual archetypes:
+
+ARCHETYPE 1: THE CORAL & SAGA BEADS (Vivid Red / Bicolor, Round/Plump)
+  Concept: Eye-catching decorative/jewelry seeds; hard, glossy, scarlet or red-and-black; non-flat.
+  Species:
+    - Abrus precatorius (2/3 red, 1/3 black eye; round)
+    - Adenanthera pavonina (Uniform scarlet red; biconvex lens)
+    - Adenanthera microsperma (Scarlet red; cordate/heart-round)
+    - Erythrina abyssinica (Glowing red with black hilum; plump)
+    - Erythrina fusca (Deep coral-red to dark brown; oblong)
+
+ARCHETYPE 2: THE GIANT FOREST COINS & BLOCKS (Very Large, Woody/Stony)
+  Concept: Heavyweight tropical seeds (>15-28 mm); thick woody seed coats; flat discs or chunky blocks.
+  Species:
+    - Sindora velutina (Huge flat woody disc capped with yellow aril cushion)
+    - Sindora leiocarpa (Large flat woody circular disc)
+    - Sindora brugemanii (Large flat dark woody disc)
+    - Millettia xylocarpa (Massive dark chocolate disc)
+    - Hymenaea courbaril (Huge stony rectangular enamel-like block)
+    - Hymenaea verrucosa (Chunky dark resinous bean)
+    - Mucuna pruriens (Plump heavy black bean with large white hilum)
+    - Canavalia rosea (Thick marbled coastal beach bean)
+    - Parkia timoriana (Large solid black leathery oval)
+
+ARCHETYPE 3: THE FLAT POD-WAFERS (Very Flat, Disc-like, Mimosoid/Caesalpinioid)
+  Concept: Extremely compressed, thin wafer-like seeds with a distinct central pleurogram (U-line).
+  Species:
+    - Anadenanthera peregrina (Paper-thin circular dark brown coin)
+    - Bauhinia purpurea (Large flat undulating chocolate wafer)
+    - Albizia procera (Very thin greenish-brown wafer)
+    - Albizia chinensis (Flat disc with prominent pleurogram)
+    - Albizia lebbekoides (Flat tan-brown disc)
+    - Albizia saponaria (Flat dark brown disc)
+    - Leucaena leucocephala (Glossy flat brown teardrop/oval)
+    - Leucaena pallida (Flat tan oval)
+    - Leucaena esculenta (Large flat dark brown disc)
+    - Paraserianthes falcataria (Thin flat teardrop with ring)
+    - Peltophorum dasyrhachis (Flat pale tan oblong wafer)
+    - Peltophorum pterocarpum (Flat amber-brown oblong wafer)
+    - Senna siamea (Flat circular brown disc)
+    - Senna multijuga (Flat dark brown oval)
+    - Senna spectabilis (Flat small brown disc)
+    - Senna surattensis (Glossy flat brown oval)
+    - Dalbergia latifolia (Thin delicate kidney wafer)
+    - Zapoteca tetragona (Small flat seed with circular areole)
+
+ARCHETYPE 4: THE HARD MARBLES (Globose / Round Spheres)
+  Concept: Smooth, spherical or near-spherical balls; rolling easily; non-compressed.
+  Species:
+    - Caesalpinia bonduc (Stony porcelain-grey hard marble)
+    - Sophora tomentosa (Smooth tan-yellowish round marble)
+    - Psophocarpus tetragonolobus (Smooth round tan marble)
+    - Psophocarpus scandens (Smooth round dark brown bean)
+    - Flemingia macrophylla (Tiny shiny black ball, 3 mm)
+    - Cajanus cajan (Round plump pigeon pea)
+
+ARCHETYPE 5: THE LONG CYLINDERS & RODS (Elongated / Truncated)
+  Concept: Length >> Width; cylindrical or squared-off rods, often with diagonally cut ends.
+  Species:
+    - Delonix regia (Long striped cylinder with pale tips)
+    - Cassia fistula (Slender dark brown cylinder/oval)
+    - Sesbania grandiflora (Rectangular-cylindrical reddish-brown)
+    - Sesbania sesban (Small olive-green cylindrical block)
+    - Senna obtusifolia (Glossy amber diagonally-cut cylinder)
+    - Senna tora (Angular rhomboidal dark cylinder)
+    - Indigofera tinctoria (Miniature squared cylindrical block, 2 mm)
+
+ARCHETYPE 6: THE MINIATURE KIDNEY BEANS (Reniform, Small/Medium)
+  Concept: Distinctly curved/notched bean shape with indented hilum.
+  Species:
+    - Crotalaria juncea (Dark grey/olive deeply notched kidney)
+    - Crotalaria retusa (Golden-amber glossy kidney)
+    - Aeschynomene indica (Smooth dark olive tiny kidney)
+    - Clitoria ternatea (Dark olive-black kidney bean)
+    - Pterocarpus indicus (Compressed reddish-brown kidney)
+    - Vigna marina (Plump golden-yellow kidney bean)
+
+ARCHETYPE 7: THE EYE-RINGED & ARIL-BEARING SEEDS (Two-Tone / Specialized)
+  Concept: Seeds with striking contrasting colored eyes, pleurogram rings, or fleshy arils.
+  Species:
+    - Enterolobium cyclocarpum (Dark bean with glowing golden-yellow oval ring)
+    - Samanea saman (Brown seed with yellow pleurogram ring)
+    - Acacia auriculiformis (Black seed encircled by bright orange coiled aril)
+    - Acacia mangium (Black seed with folded orange-yellow aril)
+    - Sindora velutina (Large dark disc capped by yellow wax aril)
+
+ARCHETYPE 8: THE SHINY JET-BLACK BEADS (Polished Black, Medium/Small)
+  Concept: Deep pitch-black seeds with high surface gloss.
+  Species:
+    - Albizia lophantha (Dense glossy black plump bean)
+    - Pithecellobium dulce (Lustrous jet-black asymmetric seed)
+    - Macroptilium atropurpureum (Mottled black/grey rhomboid bean)
+    - Mimosa invisa (Glossy tiny black/dark-brown oval)
+    - Mimosa pigra (Olive-black slender bean)
+
+==========================================================================================
+SECTION 5: HIGH-SIMILARITY / LOOKALIKE PAIRS & HOW TO DISTINGUISH THEM
+==========================================================================================
+
+* Adenanthera pavonina vs. Adenanthera microsperma:
+  Diagnostic: Both are brilliant scarlet red beads. A. pavonina is larger (8-10 mm), symmetrical biconvex lens-shaped. A. microsperma is smaller (6-8 mm) and slightly heart-shaped (cordate).
+
+* Abrus precatorius vs. Erythrina abyssinica:
+  Diagnostic: Both have brilliant scarlet red and black. Abrus has a true 2/3 red, 1/3 solid black cap around the hilum, and is smaller (5-7 mm). Erythrina is entirely red except for a narrow black hilum scar, and is much larger (9-12 mm).
+
+* Caesalpinia bonduc vs. Sophora tomentosa:
+  Diagnostic: Both are perfectly round, hard spherical marbles. C. bonduc is stony porcelain-grey/ash and very large (15-22 mm). S. tomentosa is pale tan/buff-yellow and medium-sized (6-8 mm).
+
+* Enterolobium cyclocarpum vs. Samanea saman:
+  Diagnostic: Both are brown seeds with a contrasting yellowish-orange pleurogram ring. Enterolobium is massive (16-22 mm), very thick and rounded. Samanea is medium-sized (8-11 mm) and more slender/oblong.
+
+* Acacia auriculiformis vs. Acacia mangium:
+  Diagnostic: Both are glossy black seeds attached to an orange coiled aril. A. auriculiformis is larger (5-7 mm) with an aril completely encircling the seed. A. mangium is tiny (3-5 mm) with the aril folded only at the base.
+
+* Senna obtusifolia vs. Senna tora:
+  Diagnostic: Both are angular, glossy brown cylindrical seeds. S. obtusifolia has distinctly oblique/diagonally truncated ends. S. tora is more quadrangular/rhombic in cross-section.
+
+* Crotalaria juncea vs. Crotalaria retusa:
+  Diagnostic: Both are classic notched kidney-shaped seeds. C. juncea is dark olive-black/grey and slightly larger (4-6 mm). C. retusa is glowing golden-amber/yellow and slightly smaller (4-5 mm).
+
+* Leucaena leucocephala vs. Albizia lebbekoides / A. procera:
+  Diagnostic: All are flat, compressed brown discs with pleurograms. Leucaena is shiny teardrop/oval with a rich chestnut gloss. A. procera is paper-thin and olive-greenish. A. lebbekoides is pale tan/brown and broadly circular.
+
+* Sindora leiocarpa vs. Sindora brugemanii vs. Sindora velutina:
+  Diagnostic: All are massive flat woody dark discs (18-28 mm). S. velutina is readily identified by its thick, bright yellow-orange waxy aril cushion at the base. S. brugemanii has a smaller dark collar. S. leiocarpa is smooth and bare.
+
+==========================================================================================
+SECTION 6: MASTER 76-SPECIES SUMMARY TABLE
+==========================================================================================
+No  | Species Name                 | Color Cluster          | Shape & Flatness         | Size Class
+-----------------------------------------------------------------------------------------------
+1   | Abrus precatorius            | Bicolor                | Spherical / Subg (Round/Plump) | Medium    
+2   | Acacia auriculiformis        | Black / Dark Charcoal  | Oval / Compresse (Flat)  | Medium    
+3   | Acacia caffra                | Dark Brown / Blackish  | Oval / Flattened (Flat)  | Medium    
+4   | Acacia mangium               | Glossy Black           | Elliptic / Oblon (Round/Plump) | Small to Medium
+5   | Adenanthera microsperma      | Bright Red / Scarlet   | Heart-shaped to  (Round/Plump) | Medium    
+6   | Adenanthera pavonina         | Bright Scarlet Red     | Lenticular / Sub (Round/Plump) | Medium to Large
+7   | Aeschynomene indica          | Olive-Green / Brownish-Black | Reniform (Round/Plump)   | Small     
+8   | Albizia chinensis            | Dark Brown to Olive-Brown | Elliptic / Flatt (Flat)  | Medium    
+9   | Albizia lebbekoides          | Light Brown / Tan      | Broadly Elliptic (Flat)  | Medium    
+10  | Albizia lophantha            | Jet Black              | Oval / Oblong (Round/Plump) | Medium    
+11  | Albizia procera              | Brown to Olive-Green   | Round to Broadly (Flat)  | Medium    
+12  | Albizia saponaria            | Dark Brown / Blackish  | Oval / Compresse (Flat)  | Medium    
+13  | Albizia splendens            | Dark Brown / Blackish  | Oblong / Ellipti (Flat)  | Large     
+14  | Anadenanthera peregrina      | Chestnut to Dark Brown | Circular / Disc- (Flat)  | Large     
+15  | Bauhinia purpurea            | Dark Brown to Chestnut | Rounded Oval / D (Flat)  | Large     
+16  | Caesalpinia bonduc           | Porcelain Grey / Ash / Slate | Spherical / Glob (Round/Plump) | Very Large
+17  | Caesalpinia coriaria         | Golden Brown / Yellow-Amber | Oblong / Compres (Flat)  | Medium    
+18  | Caesalpinia mexicana         | Light Brown / Tan      | Ovate to Suborbi (Flat)  | Medium to Large
+19  | Cajanus cajan                | Mottled Cream / Brown / Reddish | Subglobose / Rou (Round/Plump) | Medium    
+20  | Calliandra houstoniana       | Mottled Brown and Grey | Oblong / Ellipti (Flat)  | Medium    
+21  | Canavalia rosea              | Mottled Brown and Tan / Chestnut | Broadly Oval / P (Round/Plump) | Very Large
+22  | Cassia corymbosa             | Glossy Dark Brown / Olive | Ovate to Biconve (Round/Plump) | Small to Medium
+23  | Cassia fistula               | Glossy Reddish-Brown / Chestnut | Broadly Oval / B (Round/Plump) | Medium to Large
+24  | Cassia grandis               | Tan / Light Brown      | Large Broad Oval (Round/Plump) | Large     
+25  | Cassia javanica              | Lustrous Golden-Brown  | Oval to Obovate (Round/Plump) | Medium    
+26  | Cassia spectabilis           | Dark Brown             | Oblong / Cylindr (Round/Plump) | Small to Medium
+27  | Centrosema pubescens         | Mottled Black and Brown | Oblong to Subcyl (Round/Plump) | Medium    
+28  | Clitoria ternatea            | Dark Olive-Brown to Jet Black | Oblong / Renifor (Round/Plump) | Medium    
+29  | Crotalaria juncea            | Dark Grey / Blackish / Olive | Distinctly Renif (Flat)  | Small     
+30  | Crotalaria retusa            | Golden-Yellow to Amber-Brown | Reniform (Flat)          | Small     
+31  | Dalbergia latifolia          | Brown / Reddish-Brown  | Reniform to Flat (Flat)  | Medium    
+32  | Delonix regia                | Mottled Brown with Dark Longitudinal Stripes | Elongated / Oblo (Round/Plump) | Large to Very Large
+33  | Dendrolobium umbellatum      | Olive-Green to Brown   | Rectangular / Ob (Flat)  | Small to Medium
+34  | Enterolobium cyclocarpum     | Two-tone               | Large Oval to El (Round/Plump) | Very Large
+35  | Erythrina abyssinica         | Bright Scarlet Red with Black Hilum | Ellipsoid / Plum (Round/Plump) | Medium to Large
+36  | Erythrina fusca              | Dark Reddish-Brown to Coral-Red | Oblong / Bean-sh (Round/Plump) | Large     
+37  | Flemingia macrophylla        | Jet Black              | Spherical / Glob (Round/Plump) | Small     
+38  | Hymenaea courbaril           | Reddish-Brown / Chestnut | Broad Obovate /  (Round/Plump) | Very Large
+39  | Hymenaea verrucosa           | Dark Brown / Blackish  | Oblong to Obovat (Round/Plump) | Very Large
+40  | Indigofera tinctoria         | Yellowish-Brown to Olive | Cylindrical to Q (Round/Plump) | Small     
+41  | Leucaena esculenta           | Dark Brown to Black    | Broadly Oval / F (Flat)  | Medium to Large
+42  | Leucaena leucocephala        | Glossy Chestnut Brown  | Oval / Compresse (Flat)  | Medium    
+43  | Leucaena pallida             | Medium Brown / Tan     | Oval / Flat (Flat)       | Medium    
+44  | Macroptilium atropurpureum   | Mottled Black and Grey | Oblong / Subquad (Round/Plump) | Small to Medium
+45  | Millettia xylocarpa          | Dark Chocolate Brown   | Large Disc / Fla (Flat)  | Very Large
+46  | Mimosa invisa                | Glossy Yellow-Brown / Olive | Oval / Compresse (Flat)  | Small     
+47  | Mimosa pigra                 | Olive-Green to Brown   | Oblong / Cylindr (Round/Plump) | Small     
+48  | Mucuna pruriens              | Jet Black / Dark Mottled | Plump Oval / Rou (Round/Plump) | Large to Very Large
+49  | Neptunia plena               | Dark Brown / Blackish  | Oblong / Compres (Flat)  | Small     
+50  | Paraserianthes falcataria    | Dark Olive-Brown       | Flat Elliptic /  (Flat)  | Medium    
+51  | Parkia timoriana             | Jet Black / Dark Charcoal | Oblong to Broadl (Flat)  | Large to Very Large
+52  | Peltophorum dasyrhachis      | Light Brown / Tan      | Oblong / Flat (Flat)     | Medium    
+53  | Peltophorum pterocarpum      | Yellowish-Brown / Amber | Oblong / Flatten (Flat)  | Medium to Large
+54  | Pithecellobium dulce         | Glossy Jet Black       | Asymmetric Oval  (Flat)  | Medium to Large
+55  | Psophocarpus scandens        | Dark Brown to Blackish | Globose to Subgl (Round/Plump) | Medium    
+56  | Psophocarpus tetragonolobus  | Tan / Light Brown to Cream | Spherical / Glob (Round/Plump) | Large     
+57  | Pterocarpus indicus          | Reddish-Brown / Chestnut | Reniform (Flat)          | Medium to Large
+58  | Samanea saman                | Two-tone               | Oblong / Ellipso (Round/Plump) | Medium to Large
+59  | Senna alata                  | Dark Brown / Blackish  | Quadrangular / D (Flat)  | Medium    
+60  | Senna multijuga              | Dark Brown             | Oblong / Flatten (Flat)  | Small to Medium
+61  | Senna obtusifolia            | Glossy Golden-Brown / Amber | Rhomboid / Cylin (Round/Plump) | Small to Medium
+62  | Senna siamea                 | Dark Chestnut Brown    | Broadly Oval / D (Flat)  | Medium    
+63  | Senna spectabilis            | Dark Brown             | Suborbicular / F (Flat)  | Small to Medium
+64  | Senna surattensis            | Glossy Brown           | Elliptic / Flatt (Flat)  | Small to Medium
+65  | Senna tora                   | Olive-Brown to Dark Brown | Rhomboidal / Cyl (Round/Plump) | Small to Medium
+66  | Sesbania grandiflora         | Reddish-Brown to Tan   | Oblong / Subquad (Round/Plump) | Medium    
+67  | Sesbania sesban              | Olive-Green to Mottled Brown | Cylindrical / Su (Round/Plump) | Small to Medium
+68  | Sindora brugemanii           | Dark Brown / Blackish  | Large Rounded Di (Flat)  | Very Large
+69  | Sindora leiocarpa            | Dark Chocolate Brown   | Broadly Oval / R (Flat)  | Very Large
+70  | Sindora velutina             | Dark Brown / Black with Yellow Aril | Large Disc / Rou (Flat)  | Very Large
+71  | Sophora tomentosa            | Light Brown / Tan      | Spherical / Glob (Round/Plump) | Medium    
+72  | Tadehagi triquetrum          | Olive-Brown / Dark Brown | Oblong / Rectang (Flat)  | Small     
+73  | Vachellia farnesiana         | Dark Chestnut Brown    | Broadly Oval / B (Round/Plump) | Medium    
+74  | Vachellia nilotica           | Dark Brown / Blackish  | Suborbicular / C (Flat)  | Medium to Large
+75  | Vigna marina                 | Yellow-Amber to Light Brown | Oblong to Renifo (Round/Plump) | Medium    
+76  | Zapoteca tetragona           | Dark Olive-Brown       | Oblong to Ellipt (Flat)  | Small     
+-----------------------------------------------------------------------------------------------
+
+End of Seed Clustering Analysis Summary.
+Generated automatically from multi-modal analysis of Sample/ image dataset.
+==========================================================================================

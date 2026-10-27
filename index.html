@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fabaceae Seed Tier Maker | Biji Classification</title>
+  <meta name="description" content="Interactive drag-and-drop tier list maker for 76 Fabaceae seed species. Group seeds by color, shape, size, or custom tiers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <!-- Local html2canvas for 100% offline and file:// support without tainted canvas issues -->
+  <script src="html2canvas.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header Bar -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="logo-badge">
+          <span class="seed-icon">🌱</span>
+          <div class="logo-text">
+            <h1>Seed Tier Maker</h1>
+            <span class="logo-sub">Fabaceae (Biji) Collection • 76 Species</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <!-- Preset Templates Dropdown -->
+        <div class="preset-selector">
+          <label for="templatePreset">Presets:</label>
+          <select id="templatePreset" class="preset-dropdown">
+            <option value="custom">Custom Tiers</option>
+            <option value="classic">Classic (S, A, B, C, D)</option>
+            <option value="color">By Color (Red, Black, Brown, Amber, Grey, Olive)</option>
+            <option value="shape">By Shape (Round, Flat Discs, Cylinders, Kidney)</option>
+            <option value="size">By Size (Macro, Large, Medium, Small)</option>
+          </select>
+          <button id="applyPresetBtn" class="btn btn-secondary btn-sm" title="Apply selected preset">Apply</button>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Card Size Toggle -->
+        <div class="view-toggles">
+          <button class="size-btn" data-size="compact" title="Compact cards">S</button>
+          <button class="size-btn active" data-size="normal" title="Normal cards">M</button>
+          <button class="size-btn" data-size="large" title="Large cards">L</button>
+        </div>
+        
+        <button id="addTierTopBtn" class="btn btn-primary">
+          <span class="btn-icon">+</span> Add Tier
+        </button>
+        
+        <button id="shareCodeBtn" class="btn btn-secondary" title="Get shareable string code">
+          📤 Share
+        </button>
+
+        <button id="importCodeBtn" class="btn btn-secondary" title="Load tier list from code">
+          📥 Load
+        </button>
+
+        <button id="exportImageBtn" class="btn btn-accent" title="Download tier list as image">
+          📷 Save Image
+        </button>
+
+        <button id="resetAllBtn" class="btn btn-danger-outline" title="Reset all items to pool">
+          ↺ Reset
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Tier Board Section (Capture Area for Export) -->
+      <section class="tier-board-section">
+        <div id="tierBoard" class="tier-board">
+          <!-- Tiers injected dynamically via JS -->
+        </div>
+
+        <div class="tier-board-actions">
+          <button id="addTierBottomBtn" class="btn btn-outline btn-block">
+            + Add New Custom Tier
+          </button>
+        </div>
+      </section>
+
+      <!-- Unranked / Pool Section -->
+      <section class="pool-section">
+        <div class="pool-header">
+          <div class="pool-title-group">
+            <h2>Unassigned Seeds</h2>
+            <span id="poolCountBadge" class="count-badge">76 / 76</span>
+            <span class="pool-hint">💡 Drag cards into any tier, or click a card to view seed details.</span>
+          </div>
+
+          <div class="pool-controls">
+            <!-- Search Input -->
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="seedSearchInput" placeholder="Search by name, color, shape..." autocomplete="off">
+              <button id="clearSearchBtn" class="clear-search-btn" style="display: none;">✕</button>
+            </div>
+
+            <!-- Quick Filter Chips -->
+            <div class="filter-chips">
+              <button class="chip active" data-filter="all">All (76)</button>
+              <button class="chip" data-filter="red">🔴 Red</button>
+              <button class="chip" data-filter="black">⚫ Black</button>
+              <button class="chip" data-filter="brown">🟤 Brown</button>
+              <button class="chip" data-filter="round">⚪ Round</button>
+              <button class="chip" data-filter="flat">🪙 Flat</button>
+              <button class="chip" data-filter="large">🐘 Large</button>
+              <button class="chip" data-filter="small">🐜 Small</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- The Seed Pool Container -->
+        <div id="seedPool" class="seed-pool" data-tier-id="pool">
+          <!-- Seed cards injected dynamically -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal for Full-Size Seed Image & Details -->
+    <div id="seedDetailModal" class="modal-overlay" style="display: none;">
+      <div class="modal-card">
+        <button id="closeModalBtn" class="modal-close-btn" aria-label="Close modal">✕</button>
+        <div class="modal-body">
+          <div class="modal-image-container">
+            <img id="modalImg" src="" alt="Seed Full Preview">
+          </div>
+          <div class="modal-info">
+            <span id="modalSeedNumber" class="modal-number-badge">#01</span>
+            <h3 id="modalSeedName">Species Name</h3>
+            
+            <div class="modal-tags">
+              <span id="modalColorTag" class="tag tag-color">Color</span>
+              <span id="modalShapeTag" class="tag tag-shape">Shape</span>
+              <span id="modalSizeTag" class="tag tag-size">Size</span>
+              <span id="modalFlatTag" class="tag tag-flat">Flatness</span>
+            </div>
+
+            <div class="modal-description">
+              <h4>Diagnostic Features:</h4>
+              <p id="modalSeedTraits">Morphological traits and seed coat description.</p>
+            </div>
+
+            <div class="modal-actions">
+              <label for="modalMoveSelect">Move to Tier:</label>
+              <select id="modalMoveSelect" class="form-select">
+                <!-- Dynamically populated -->
+              </select>
+              <button id="modalMoveConfirmBtn" class="btn btn-primary btn-sm">Move</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Share Code -->
+    <div id="shareModal" class="modal-overlay" style="display: none;">
+      <div class="modal-card modal-sm">
+        <button id="closeShareModalBtn" class="modal-close-btn" aria-label="Close modal">✕</button>
+        <div class="modal-info">
+          <h3>📤 Share Tier List</h3>
+          <p class="modal-subtext">Share this compact code with others to let them view or load your exact tier setup and seed placements:</p>
+          
+          <div class="code-box-wrapper">
+            <textarea id="shareCodeOutput" class="code-textarea" readonly rows="3" spellcheck="false"></textarea>
+            <button id="copyCodeBtn" class="btn btn-primary btn-block">📋 Copy String Code</button>
+          </div>
+
+          <div class="share-summary-section">
+            <h4>Tier Contents:</h4>
+            <div id="shareSummaryBadges" class="share-summary-badges"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Import Code -->
+    <div id="importModal" class="modal-overlay" style="display: none;">
+      <div class="modal-card modal-sm">
+        <button id="closeImportModalBtn" class="modal-close-btn" aria-label="Close modal">✕</button>
+        <div class="modal-info">
+          <h3>📥 Load Shared Tier List</h3>
+          <p class="modal-subtext">Paste a shared string code below to instantly recreate that tier list:</p>
+          
+          <div class="code-box-wrapper">
+            <textarea id="importCodeInput" class="code-textarea" placeholder="Paste your BJI_... code here" rows="3" spellcheck="false"></textarea>
+            <button id="applyImportBtn" class="btn btn-accent btn-block">🚀 Load Tier List</button>
+          </div>
+
+          <div id="importErrorMsg" class="import-error-msg" style="display: none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toastNotification" class="toast-notification"></div>
+  </div>
+
+  <!-- Load Seed Data -->
+  <script src="species_data.js"></script>
+  <!-- Main Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

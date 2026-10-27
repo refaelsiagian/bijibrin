@@ -676,7 +676,7 @@
 
     activeModalSeedId = seedId;
 
-    modalImg.src = seed.full_image || seed.thumbnail;
+    modalImg.src = seed.thumbnail;
     modalImg.alt = seed.name;
     modalSeedNumber.textContent = `#${String(seed.number).padStart(2, '0')}`;
     modalSeedName.textContent = seed.name;
